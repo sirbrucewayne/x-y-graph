@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>GRAPH</title>
+	<style type="text/css">
+		#graph{
+			background-color:white;
+		}
+        #input{
+            border:none;
+            font-size: 25px;
+            display: inline-block;
+        }
+        #y-exp{
+            font-size: 25px;
+            display: inline-block;
+        }
+        body{
+            display: inline-block;
+        }
+	</style>
+</head>
+<body>
+    <p id="y-exp">y =  </p><input id="input" type="text" name="equation" placeholder="  enter x - equation" > 
+    <button type="submit" name="submit" onclick="GRAPH()">draw</button>   
+    <p id="demo"></p>
+<canvas id="graph" width="800" height="600"></canvas>
+<script type="text/javascript">
+    function GRAPH()
+    {
+         document.getElementById("graph").style.backgroundColor="black";
+         var canvas=document.getElementById("graph");
+         var pencil=canvas.getContext("2d");
+         pencil.translate(canvas.width/2,canvas.height/2);
+
+    var x,y;
+    y=document.getElementById("input").value;
+
+    function drawAxes()
+    {
+        pencil.lineWidth=1;
+        pencil.beginPath();
+        pencil.moveTo(0,0);
+        pencil.lineTo(0,canvas.height/2);
+        pencil.strokeStyle="cyan";
+        pencil.stroke();
+       
+        pencil.beginPath();
+        pencil.moveTo(0,0);
+        pencil.lineTo(0,-canvas.height/2);
+        pencil.strokeStyle="cyan";
+        pencil.stroke();
+
+        pencil.beginPath();
+        pencil.moveTo(0,0);
+        pencil.lineTo(canvas.width/2,0);
+        pencil.strokeStyle="cyan";
+        pencil.stroke();
+
+        pencil.beginPath();
+        pencil.moveTo(0,0);
+        pencil.lineTo(-canvas.width/2,0);
+        pencil.strokeStyle="cyan";
+        pencil.stroke();
+
+    }
+    function drawPointers()
+    {
+        var x=-canvas.width/2;
+        var i=-4;
+
+        
+
+        while(x<=canvas.width/2)
+        {
+            pencil.beginPath();
+            pencil.moveTo(x+100,8);
+            pencil.lineTo(x+100,-8);
+            pencil.strokeStyle="rgb(0, 0, 255)";
+            pencil.stroke();
+            
+            pencil.font="15px";
+            pencil.fillStyle="white";
+            pencil.fillText(i*100,x,10);
+
+            i++;
+            x+=100;
+        }
+
+        var y=-canvas.height/2;
+        var j=-3;
+
+        while(y<=canvas.height)
+        {
+            pencil.beginPath();
+            pencil.moveTo(-8,y+100);
+            pencil.lineTo(8,y+100);
+            pencil.strokeStyle="rgb(0, 0, 255)";
+            pencil.stroke();
+            
+            pencil.font="15px";
+            pencil.fillStyle="white";
+            pencil.fillText(j*100,-10,y);
+
+            j++;
+            y+=100;
+        }
+
+    }
+    function drawArrowMarks()
+    {
+        var x1=-canvas.width/2;
+        pencil.beginPath();        //drawing arrow marks
+        pencil.moveTo(x1+10,10);
+        pencil.lineTo(x1,0);
+        pencil.lineTo(x1+10,-10);
+        pencil.strokeStyle="cyan";
+        pencil.stroke();
+
+        x1=canvas.width/2;
+        pencil.beginPath();
+        pencil.moveTo(x1-10,10);
+        pencil.lineTo(x1,0);
+        pencil.lineTo(x1-10,-10);
+        pencil.strokeStyle="cyan";
+        pencil.stroke();
+
+        var y1=-canvas.height/2;
+        pencil.beginPath();
+        pencil.moveTo(10,y1+10);
+        pencil.lineTo(0,y1);
+        pencil.lineTo(-10,y1+10);
+        pencil.strokeStyle="cyan";
+        pencil.stroke();
+
+        y1=canvas.height/2;
+        pencil.beginPath();
+        pencil.moveTo(10,y1-10);
+        pencil.lineTo(0,y1);
+        pencil.lineTo(-10,y1-10);
+        pencil.strokeStyle="cyan";
+        pencil.stroke();
+    }
+    function drawScale()
+    {
+        pencil.beginPath();
+        pencil.rect(canvas.width/2-150,-canvas.height/2,150,100);
+        pencil.strokeStyle="white";
+        pencil.stroke();
+
+        pencil.font="15px Arial";
+        pencil.fillStyle="white";
+        pencil.fillText("SCALE - ",canvas.width/2-130,-canvas.height/2+50);
+        pencil.fillText("x-axis :- 1px = 1unit",canvas.width/2-140,-canvas.height/2+70);
+        pencil.fillText("y-axis :- 1px = 1unit",canvas.width/2-140,-canvas.height/2+90);
+    }
+    function drawLines()
+    {
+        var x1=-canvas.width;
+        while(x1<=canvas.width/2)
+        {
+            pencil.beginPath();
+            pencil.moveTo(x1+50,canvas.height/2);
+            pencil.lineTo(x1+50,-canvas.height/2);
+            pencil.strokeStyle="rgb(179, 255, 179)";
+            pencil.stroke();
+
+            x1+=50;
+        }
+
+        var y1=-canvas.height;
+        while(y1<=canvas.height)
+        {
+            pencil.beginPath();
+            pencil.moveTo(-canvas.width/2,y1+50);
+            pencil.lineTo(canvas.width/2,y1+50);
+            pencil.strokeStyle="rgb(179, 255, 179)";
+            pencil.stroke();
+
+            y1+=50;
+        }
+    }
+    function backgroundcolor()
+    {
+        //balancing background color
+        pencil.beginPath();
+        pencil.rect(0,-canvas.height/2,canvas.width/2,canvas.height/2);  //right-top
+        pencil.fillStyle="black";
+        pencil.fill();
+
+        pencil.beginPath();
+        pencil.rect(-canvas.width/2,-canvas.height/2,canvas.width/2,canvas.height/2);  //left-top
+        pencil.fillStyle="black";
+        pencil.fill();
+
+        pencil.beginPath();
+        pencil.rect(-canvas.width/2,0,canvas.width/2,canvas.height/2); //left-bottom
+        pencil.fillStyle="black";
+        pencil.fill();
+    }
+    function drawFunction()
+    {
+       
+         var x1=-canvas.width;
+         
+         while(x1<=canvas.width)
+         {
+            var str=y;
+                            //console.log("str",str);
+            var res=str.replace(/x/g,x1);    //'g' refers to global i.e., replaces x in whole string with x1
+                           //console.log("res",res);
+                           //console.log(eval(res));
+            var y1,y2;
+               y1= eval(res);
+            pencil.beginPath();
+            pencil.moveTo(x1*1,-1*(y1*1));//console.log(x1,y1);
+               x1=x1+1;
+            res=str.replace(/x/g,x1);
+               y2=eval(res);
+            pencil.lineTo(x1*1,-1*y2*1);
+            pencil.strokeStyle="red";
+            pencil.stroke();
+            //console.log(x1,y2);
+         }
+    }
+    function draw() {
+        pencil.clearRect(0,0,canvas.width,canvas.height);
+        
+        backgroundcolor();
+        drawLines();
+        drawAxes();
+        drawScale();
+        drawPointers();
+        drawArrowMarks();
+        drawFunction();
+    }
+    setInterval(draw,10);
+    }
+	
+
+</script>
+
+    
+</body>
+</html>
